@@ -1,0 +1,48 @@
+var x = 0
+var y = 0
+var draw_circle = "";
+var draw_rect = "";
+var SpeechRecognition = window.webkitSpeechRecognition;
+var recognition = new SpeechRecognition;
+function start() {
+    document.getElementById("status").innerHTML = "El sistema esta escuchando. Por favor hable";
+    recognition.start();
+}
+
+recognition.onresult = function(event) {
+    console.log(event);
+    var content= event.results[0][0].transcript;
+    document.getElementById("status").innerHTML = "La voz se reconocio como:" +content;
+    if(content=="círculo") {
+        x = Math.floor(Math.random()*900);
+        y = Math.floor(Math.random()*600);
+        document.getElementById("status").innerHTML = "Se dibujará un circulo";
+        draw_circle = "set";
+    }
+    
+    if(content=="rectángulo") {
+        x = Math.floor(Math.random()*900);
+        y = Math.floor(Math.random()*600);
+        document.getElementById("status").innerHTML = "Se dibujará un rectangulo";
+        draw_rect = "set";
+    }
+}
+
+function setup() {
+    canvas = createCanvas(900,600);
+}
+
+function draw() {
+    if(draw_circle == "set") {
+        radius = Math.floor(Math.random()*100);
+        circle (x, y, radius);
+        document.getElementById("status").innerHTML = "Se ha dibujado un circulo";
+        draw_circle = "";
+    }
+
+    if(draw_rect == "set") {
+        rect (x, y, 50, 70);
+        document.getElementById("status").innerHTML = "Se ha dibujado un rectangulo";
+        draw_rect = "";
+    }
+}
